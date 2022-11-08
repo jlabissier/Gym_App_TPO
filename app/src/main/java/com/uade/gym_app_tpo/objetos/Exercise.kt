@@ -29,5 +29,7 @@ data class Exercise (
     @SerializedName("license_author")
     val license_author: String? = null,
 
-    val variations: ArrayList<Int>? = null
+    val variations: ArrayList<Int>? = null,
+
+    var favorito: Boolean = false
 )

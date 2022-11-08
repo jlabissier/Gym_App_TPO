@@ -5,7 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.uade.gym_app_tpo.R
 import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
@@ -17,6 +20,9 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
                         context: Context): RecyclerView.Adapter<ItemEjercicio>() {
 
     var onItemClick : ( (Exercise,Muscle) -> Unit)? = null
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var firebaseAuth: FirebaseAuth
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemEjercicio {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_ejercicio,parent,false)
@@ -55,11 +61,39 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
         // cambio a pantalla descripcion
         var ejercicio = ejercicios[position]
         holder.itemView.setOnClickListener{
-            Log.d("debug","Prueba descripcion")
+            Log.d("PRUEBA","Prueba descripcion")
             onItemClick?.invoke(ejercicio,musculo!!)
         }
 
+        var fav = holder.fav;
 
+        fav.setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "Switch1:ON" else "Switch1:OFF"
+            Log.d("PRUEBA",message);
+
+            if(isChecked){
+                firebaseAuth = FirebaseAuth.getInstance()
+                val firebaseUser = firebaseAuth.currentUser
+                val uid = firebaseUser!!.uid
+                val email : String = firebaseUser.email!!
+                Log.d("PRUEBA",email);
+
+                db.collection("usuarios").document(email).collection("favoritos").document(ejercicio.id.toString()).set(
+                    hashMapOf(
+                        "id" to ejercicio.id,
+                        "uid" to ejercicio.uuid,
+                        "name" to ejercicio.name,
+                        "description" to ejercicio.description,
+                        "category" to ejercicio.category,
+                        "muscles" to ejercicio.muscles,
+                        "favorito" to ejercicio.favorito,
+                    )
+                )
+            }
+            else{
+
+            }
+        }
     }
 
     override fun getItemCount(): Int {
