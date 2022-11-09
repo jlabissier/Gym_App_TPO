@@ -2,16 +2,23 @@ package com.uade.gym_app_tpo.dataService
 
 import android.content.Context
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
 import com.uade.gym_app_tpo.objetos.Muscle
+import com.uade.gym_app_tpo.pantallas.EjerciciosAdapter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class ApiServices {
+
+
     companion object{
         val BASE_URL = "https://wger.de/"
+        private val db = FirebaseFirestore.getInstance()
+        private lateinit var firebaseAuth: FirebaseAuth
 
         suspend fun fetchEjercicios(context: Context): ArrayList<Exercise>? {
             val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
@@ -61,6 +68,47 @@ class ApiServices {
             }
         }
 
+        suspend fun guardarFavorito(context: EjerciciosAdapter, ejercicio: Exercise){
+            firebaseAuth = FirebaseAuth.getInstance()
+            val firebaseUser = firebaseAuth.currentUser
+            val email : String = firebaseUser?.email!!
+            Log.d("PRUEBA",email);
+
+            db.collection("usuarios")
+                .document(email)
+                .collection("favoritos")
+                .document(ejercicio.id.toString())
+                .set(
+                    hashMapOf(
+                        "id" to ejercicio.id,
+                        "uid" to ejercicio.uuid,
+                        "name" to ejercicio.name,
+                        "description" to ejercicio.description,
+                        "category" to ejercicio.category,
+                        "muscles" to ejercicio.muscles,
+                        "favorito" to true,
+                    )
+                )
+        }
+
+        suspend fun eliminarFavorito(context: EjerciciosAdapter,ejercicio: Exercise){
+            firebaseAuth = FirebaseAuth.getInstance()
+            val firebaseUser = firebaseAuth.currentUser
+            val email : String = firebaseUser?.email!!
+            Log.d("PRUEBA",email);
+
+            db.collection("usuarios")
+                .document(email)
+                .collection("favoritos")
+                .document(ejercicio.id.toString())
+                .delete()
+                .addOnSuccessListener {
+                    Log.d("prueba","ApiService: Ejercicio eliminado de favoritos")
+                }
+                .addOnFailureListener {
+                    Log.d("prueba","ApiService: ERROR: Ejercicio no se pudo eliminar de favoritos")
+                }
+        }
 
     }
 

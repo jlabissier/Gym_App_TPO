@@ -5,14 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uade.gym_app_tpo.R
+import com.uade.gym_app_tpo.dataService.RepositorioMain
 import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
 import com.uade.gym_app_tpo.objetos.Muscle
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
                         var categorias: MutableList<Category>,
@@ -20,8 +22,12 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
                         context: Context): RecyclerView.Adapter<ItemEjercicio>() {
 
     var onItemClick : ( (Exercise,Muscle) -> Unit)? = null
+
     private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseAuth: FirebaseAuth
+
+    private val coroutineContext: CoroutineContext = newSingleThreadContext("Main")
+    private val scope = CoroutineScope(coroutineContext)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemEjercicio {
@@ -50,8 +56,6 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
                 musculo = musc
             }
 
-
-
         if (position == (itemCount - 1)) {
             holder.separator.visibility = View.INVISIBLE
         } else {
@@ -72,26 +76,21 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
             Log.d("PRUEBA",message);
 
             if(isChecked){
-                firebaseAuth = FirebaseAuth.getInstance()
-                val firebaseUser = firebaseAuth.currentUser
-                val uid = firebaseUser!!.uid
-                val email : String = firebaseUser.email!!
-                Log.d("PRUEBA",email);
-
-                db.collection("usuarios").document(email).collection("favoritos").document(ejercicio.id.toString()).set(
-                    hashMapOf(
-                        "id" to ejercicio.id,
-                        "uid" to ejercicio.uuid,
-                        "name" to ejercicio.name,
-                        "description" to ejercicio.description,
-                        "category" to ejercicio.category,
-                        "muscles" to ejercicio.muscles,
-                        "favorito" to ejercicio.favorito,
-                    )
-                )
+                scope.launch {
+                    RepositorioMain.guardarFavorito(this@EjerciciosAdapter, ejercicio)
+                    withContext(Dispatchers.Main){
+                        Log.d("prueba","Se guardo el ejercicio Fav")
+                    }
+                }
             }
             else{
-
+                scope.launch {
+                    RepositorioMain.eliminarFavorito(this@EjerciciosAdapter, ejercicio)
+                    withContext(Dispatchers.Main){
+                        Log.d("prueba","Se guardo el ejercicio Fav")
+                    }
+                    ejercicio.favorito = false;
+                }
             }
         }
     }

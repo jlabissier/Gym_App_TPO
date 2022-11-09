@@ -2,7 +2,7 @@ package com.uade.gym_app_tpo.objetos
 
 import com.google.gson.annotations.SerializedName
 
-data class Exercise (
+data class Exercise(
     val id: Int? = null,
     val uuid: String? = null,
     val name: String? = null,

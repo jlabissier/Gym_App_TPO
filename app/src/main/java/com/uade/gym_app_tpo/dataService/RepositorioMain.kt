@@ -4,6 +4,7 @@ import android.content.Context
 import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
 import com.uade.gym_app_tpo.objetos.Muscle
+import com.uade.gym_app_tpo.pantallas.EjerciciosAdapter
 
 class RepositorioMain {
     // que corcho es esto.
@@ -20,6 +21,13 @@ class RepositorioMain {
             return ApiServices.fetchMusculos(context)
         }
 
+        suspend fun guardarFavorito(context: EjerciciosAdapter, ejercicio: Exercise){
+            ApiServices.guardarFavorito(context,ejercicio)
+        }
+
+        suspend fun eliminarFavorito(context: EjerciciosAdapter,ejercicio: Exercise){
+            ApiServices.eliminarFavorito(context,ejercicio)
+        }
 
         fun verificarEjercicios(ejercicios : ArrayList<Exercise>): ArrayList<Exercise> {
             val ejerFiltrados = ArrayList<Exercise>()
