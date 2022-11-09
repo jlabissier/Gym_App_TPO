@@ -30,9 +30,9 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
     }
 
     override fun onBindViewHolder(holder: ItemEjercicio, position: Int) {
+        holder.fav.isChecked = ejercicios[position].favorito;
         holder.name.text = ejercicios[position].name
         val catId = ejercicios[position].category
-
 
         // obtengo el nombre de la cat
         for(cat in categorias)
