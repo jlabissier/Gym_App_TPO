@@ -1,4 +1,4 @@
-package com.uade.gym_app_tpo.objetos
+package com.uade.gym_app_tpo.pantallas
 
 import android.content.Context
 import android.util.Log
@@ -9,19 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uade.gym_app_tpo.R
-import com.uade.gym_app_tpo.dataService.RepositorioMain
-import com.uade.gym_app_tpo.pantallas.ItemEjercicio
+import com.uade.gym_app_tpo.dataService.RoomDataBase
+import com.uade.gym_app_tpo.objetos.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 
-class ExerciseEntityAdapter (var ejercicios: MutableList<Exercise>,
-                             var categorias: MutableList<Category>,
-                             var musculos: MutableList<Muscle>,
+class ExerciseEntityAdapter (var ejercicios: MutableList<ExerciseEntity>,
+                             var categorias: MutableList<CategoryEntity>,
+                             var musculos: MutableList<MuscleEntity>,
                              context: Context
                             ): RecyclerView.Adapter<ItemEjercicio>() {
 
-    var onItemClick : ( (Exercise,Muscle) -> Unit)? = null
+    var onItemClick : ( (ExerciseEntity, MuscleEntity) -> Unit)? = null
+    var onFavChaged : ( (ExerciseEntity, MuscleEntity) -> Unit)? = null
+
 
     private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseAuth: FirebaseAuth
@@ -48,13 +50,14 @@ class ExerciseEntityAdapter (var ejercicios: MutableList<Exercise>,
             }
 
         // obtengo el musculo.
-        var musculo : Muscle? = null
+        var musculo : MuscleEntity? = null
         var muscleId = ejercicios[position].muscles?.get(0)!!
 
         for(musc in musculos)
             if(musc.id == muscleId){
                 musculo = musc
             }
+
 
         if (position == (itemCount - 1)) {
             holder.separator.visibility = View.INVISIBLE
@@ -70,14 +73,15 @@ class ExerciseEntityAdapter (var ejercicios: MutableList<Exercise>,
         }
 
         var fav = holder.fav;
-
         fav.setOnCheckedChangeListener { _, isChecked ->
             val message = if (isChecked) "Switch1:ON" else "Switch1:OFF"
             Log.d("PRUEBA",message);
 
             if(isChecked){
                 scope.launch {
-                    RepositorioMain.guardarFavorito(this@EjerciciosAdapter, ejercicio)
+                    //val dao = RoomDataBase.getInstance(this@ExerciseEntityAdapter).ExerciseDAO()
+                    //dao.insertExercise(ejercicio);
+                    //RepositorioMain.guardarFavorito(this@EjerciciosAdapter, ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
                     }
@@ -85,7 +89,7 @@ class ExerciseEntityAdapter (var ejercicios: MutableList<Exercise>,
             }
             else{
                 scope.launch {
-                    RepositorioMain.eliminarFavorito(this@EjerciciosAdapter, ejercicio)
+                    //RepositorioMain.eliminarFavorito(this@EjerciciosAdapter, ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
                     }
@@ -100,9 +104,9 @@ class ExerciseEntityAdapter (var ejercicios: MutableList<Exercise>,
         return ejercicios.size
     }
 
-    fun update(new_ejercicios: MutableList<Exercise>,
-               new_categorias: MutableList<Category>,
-               new_musculos: MutableList<Muscle>){
+    fun update(new_ejercicios: MutableList<ExerciseEntity>,
+               new_categorias: MutableList<CategoryEntity>,
+               new_musculos: MutableList<MuscleEntity>){
         ejercicios = new_ejercicios
         categorias = new_categorias
         musculos = new_musculos

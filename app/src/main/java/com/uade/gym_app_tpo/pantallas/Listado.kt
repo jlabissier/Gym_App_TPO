@@ -52,6 +52,7 @@ class Listado : AppCompatActivity() {
         rvEjercios.adapter = adapter
 
 
+
         adapter.onItemClick = { exercise: Exercise, muscle: Muscle ->
             val intent = Intent(this, DescripcionEjercicio::class.java)
             intent.putExtra("NombreEjercicio", exercise.name)
