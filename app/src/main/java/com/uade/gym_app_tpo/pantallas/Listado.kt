@@ -75,16 +75,31 @@ class Listado : AppCompatActivity() {
         // como obtengo el titulo cuando inicio la activit
         //cargarDatos(this)
 
-        scope.launch{
-            ejercicios = RepositorioMain.fetchEjercicios(this@Listado)!!
-            categorias = RepositorioMain.fetchCategorias(this@Listado)!!
-            musculos = RepositorioMain.fetchMusculos(this@Listado)!!
+        if(titulo == "Ejercicios"){
+            scope.launch{
+                ejercicios = RepositorioMain.fetchEjercicios(this@Listado)!!
+                categorias = RepositorioMain.fetchCategorias(this@Listado)!!
+                musculos = RepositorioMain.fetchMusculos(this@Listado)!!
 
-            withContext(Dispatchers.Main){
-                adapter.update(ejercicios,categorias,musculos)
-                textCargando.visibility = View.INVISIBLE
+                withContext(Dispatchers.Main){
+                    adapter.update(ejercicios,categorias,musculos)
+                    textCargando.visibility = View.INVISIBLE
+                }
             }
         }
+        else if( titulo == "Favoritos"){
+            scope.launch{
+                ejercicios = RepositorioMain.fetchEjerciciosFavoritos(this@Listado)!!
+                categorias = RepositorioMain.fetchCategorias(this@Listado)!!
+                musculos = RepositorioMain.fetchMusculos(this@Listado)!!
+
+                withContext(Dispatchers.Main){
+                    adapter.update(ejercicios,categorias,musculos)
+                    textCargando.visibility = View.INVISIBLE
+                }
+            }
+        }
+
 
 
 

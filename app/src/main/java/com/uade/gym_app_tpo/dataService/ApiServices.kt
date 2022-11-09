@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
 import com.uade.gym_app_tpo.objetos.Muscle
@@ -109,6 +110,34 @@ class ApiServices {
                     Log.d("prueba","ApiService: ERROR: Ejercicio no se pudo eliminar de favoritos")
                 }
         }
+
+        suspend fun fetchEjerciciosFavoritos(context: Context): ArrayList<Exercise>? {
+            firebaseAuth = FirebaseAuth.getInstance()
+            val firebaseUser = firebaseAuth.currentUser
+            val email : String = firebaseUser?.email!!
+            var ejercicios = ArrayList<Exercise>()
+
+            db.collection("usuarios").document(email).collection("favoritos")
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (documents != null) {
+                        for (document in documents) {
+                            Log.d("GetFirebase", "${document.id} => ${document.data}")
+                            var ejercicio = document.toObject(Exercise::class.java)
+                            Log.d("GetFirebase", "Convertido a objeto: => ${ejercicio}")
+                            ejercicios.add(ejercicio)
+                        }
+                    } else {
+                        Log.d("GetFirebase", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("GetFirebase", "get failed with ", exception)
+                }
+
+            return ejercicios
+        }
+
 
     }
 

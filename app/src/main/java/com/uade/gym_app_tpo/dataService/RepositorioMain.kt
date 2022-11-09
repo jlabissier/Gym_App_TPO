@@ -29,6 +29,10 @@ class RepositorioMain {
             ApiServices.eliminarFavorito(context,ejercicio)
         }
 
+        suspend fun fetchEjerciciosFavoritos(context: Context): ArrayList<Exercise>? {
+            return ApiServices.fetchEjerciciosFavoritos(context)?.let { verificarEjercicios(it) }
+        }
+
         fun verificarEjercicios(ejercicios : ArrayList<Exercise>): ArrayList<Exercise> {
             val ejerFiltrados = ArrayList<Exercise>()
             for (ejercicio in ejercicios)
