@@ -57,10 +57,10 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/favDescrip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch"
+        android:text="fav"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"

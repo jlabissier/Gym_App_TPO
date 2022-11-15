@@ -21,13 +21,14 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
                         var musculos: MutableList<Muscle>,
                         context: Context): RecyclerView.Adapter<ItemEjercicio>() {
 
+    private val coroutineContext: CoroutineContext = newSingleThreadContext("Ejercicios")
+    private val scope = CoroutineScope(coroutineContext)
+
     var onItemClick : ( (Exercise,Muscle) -> Unit)? = null
 
     private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseAuth: FirebaseAuth
 
-    private val coroutineContext: CoroutineContext = newSingleThreadContext("Main")
-    private val scope = CoroutineScope(coroutineContext)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemEjercicio {
@@ -77,7 +78,7 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
 
             if(isChecked){
                 scope.launch {
-                    RepositorioMain.guardarFavorito(this@EjerciciosAdapter, ejercicio)
+                    RepositorioMain.guardarFavorito(this@EjerciciosAdapter , ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
                     }
@@ -85,7 +86,7 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
             }
             else{
                 scope.launch {
-                    RepositorioMain.eliminarFavorito(this@EjerciciosAdapter, ejercicio)
+                    RepositorioMain.eliminarFavorito(this@EjerciciosAdapter , ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
                     }

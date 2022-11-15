@@ -69,7 +69,7 @@ class ApiServices {
             }
         }
 
-        suspend fun guardarFavorito(context: EjerciciosAdapter, ejercicio: Exercise){
+        suspend fun guardarFavorito(context: Context, ejercicio: Exercise){
             firebaseAuth = FirebaseAuth.getInstance()
             val firebaseUser = firebaseAuth.currentUser
             val email : String = firebaseUser?.email!!
@@ -92,7 +92,7 @@ class ApiServices {
                 )
         }
 
-        suspend fun eliminarFavorito(context: EjerciciosAdapter,ejercicio: Exercise){
+        suspend fun eliminarFavorito(context: Context,ejercicio: Exercise){
             firebaseAuth = FirebaseAuth.getInstance()
             val firebaseUser = firebaseAuth.currentUser
             val email : String = firebaseUser?.email!!

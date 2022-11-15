@@ -1,16 +1,23 @@
 package com.uade.gym_app_tpo.pantallas
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.uade.gym_app_tpo.R
+import com.uade.gym_app_tpo.dataService.RepositorioMain
+import com.uade.gym_app_tpo.objetos.Exercise
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
 class DescripcionEjercicio : AppCompatActivity() {
+    private val coroutineContext: CoroutineContext = newSingleThreadContext("Descripcion")
+    private val scope = CoroutineScope(coroutineContext)
+
 
     val urlsImagenes = arrayListOf("",
         "https://firebasestorage.googleapis.com/v0/b/gym-app-tpo.appspot.com/o/id1_bicep.png?alt=media&token=00f08977-f649-43ca-8332-350f2eb714f6",
@@ -55,6 +62,33 @@ class DescripcionEjercicio : AppCompatActivity() {
             .placeholder(com.google.android.material.R.drawable.ic_clock_black_24dp)
             .centerCrop()
             .into(imgMusculo)
+
+
+
+        var fav = findViewById<Switch>(R.id.favDescrip);
+        var ejercicio = Exercise();
+        fav.setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "Switch1:ON" else "Switch1:OFF"
+            Log.d("PRUEBA",message);
+
+            if(isChecked){
+                scope.launch {
+                    RepositorioMain.guardarFavorito(this@DescripcionEjercicio , ejercicio)
+                    withContext(Dispatchers.Main){
+                        Log.d("prueba","Se guardo el ejercicio Fav")
+                    }
+                }
+            }
+            else{
+                scope.launch {
+                    RepositorioMain.eliminarFavorito(this@DescripcionEjercicio, ejercicio)
+                    withContext(Dispatchers.Main){
+                        Log.d("prueba","Se guardo el ejercicio Fav")
+                    }
+                    ejercicio.favorito = false;
+                }
+            }
+        }
 
     }
 
