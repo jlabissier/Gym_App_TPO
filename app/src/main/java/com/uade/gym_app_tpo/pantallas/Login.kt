@@ -92,10 +92,10 @@ class Login : AppCompatActivity() {
                 val email = firebaseUser!!.email
 
                 if(authResult.additionalUserInfo!!.isNewUser){
-                    Toast.makeText(this@Login,"Se creo el usuario correctamente",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Login,"Logeado con exito: \n Se creo el usuario correctamente",Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    Toast.makeText(this@Login,"El usuario ya existia pa",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Login,"Logeado con exito",Toast.LENGTH_SHORT).show()
 
                 }
                 // START PROFILE ACTIVITY
@@ -106,7 +106,6 @@ class Login : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.d(TAG,"No se loegueo. Se rompio todo ${e.message}")
                 Toast.makeText(this@Login,"No se logueo pa. fijate",Toast.LENGTH_SHORT).show()
-
             }
 
 

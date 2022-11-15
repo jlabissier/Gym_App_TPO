@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,7 +29,7 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
 
     private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseAuth: FirebaseAuth
-
+    var context = context;
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemEjercicio {
@@ -78,17 +79,20 @@ class EjerciciosAdapter(var ejercicios: MutableList<Exercise>,
 
             if(isChecked){
                 scope.launch {
-                    RepositorioMain.guardarFavorito(this@EjerciciosAdapter , ejercicio)
+                    RepositorioMain.guardarFavorito(context , ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
+                        Toast.makeText(context,"Ejercicio Agregado a Favoritos", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
             else{
                 scope.launch {
-                    RepositorioMain.eliminarFavorito(this@EjerciciosAdapter , ejercicio)
+                    RepositorioMain.eliminarFavorito(context , ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
+                        Toast.makeText(context,"Ejercicio Eliminado de Favoritos", Toast.LENGTH_SHORT).show()
+
                     }
                     ejercicio.favorito = false;
                 }

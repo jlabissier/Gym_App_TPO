@@ -5,7 +5,6 @@ import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
 import com.uade.gym_app_tpo.objetos.Muscle
 import com.uade.gym_app_tpo.pantallas.EjerciciosAdapter
-import kotlinx.coroutines.CoroutineScope
 
 class RepositorioMain {
     // que corcho es esto.
@@ -43,5 +42,6 @@ class RepositorioMain {
 
             return ejerFiltrados
         }
+
     }
 }

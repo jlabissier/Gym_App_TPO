@@ -3,20 +3,20 @@ package com.uade.gym_app_tpo.objetos
 import com.google.gson.annotations.SerializedName
 
 data class Exercise(
-    val id: Int? = null,
-    val uuid: String? = null,
-    val name: String? = null,
+    var id: Int? = null,
+    var uuid: String? = null,
+    var name: String? = null,
 
     @SerializedName("exercise_base")
     val exerciseBase: Int? = null,
 
-    val description: String? = null,
+    var description: String? = null,
 
     @SerializedName("creation_date")
     val creationDate: String? = null,
 
-    val category: Int? = null,
-    val muscles: ArrayList<Int>? = null,
+    var category: Int? = null,
+    var muscles: ArrayList<Int>? = null,
 
     @SerializedName("muscles_secondary")
     val musclesSecondary: ArrayList<Int>? = null,

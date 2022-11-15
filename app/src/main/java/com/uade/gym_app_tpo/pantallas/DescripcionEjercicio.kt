@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.uade.gym_app_tpo.R
 import com.uade.gym_app_tpo.dataService.RepositorioMain
@@ -54,6 +55,8 @@ class DescripcionEjercicio : AppCompatActivity() {
         descrip.text = limpiarDescripcion( intent.extras?.getString("Descripcion")!! )
         var imagenId =  intent.extras?.getInt("ImagenId")
         var imagenUrl =  urlsImagenes[imagenId!!];
+        var fav = findViewById<Switch>(R.id.favDescrip);
+        fav.isChecked = intent.extras?.getBoolean("favorito") == true;
 
         Log.d("Debug",imagenUrl!!);
 
@@ -65,17 +68,29 @@ class DescripcionEjercicio : AppCompatActivity() {
 
 
 
-        var fav = findViewById<Switch>(R.id.favDescrip);
-        var ejercicio = Exercise();
+
         fav.setOnCheckedChangeListener { _, isChecked ->
+            // Armo el musculito pa enviar
+            var musculos = ArrayList<Int>()
+            musculos.add(imagenId);
+            var ejercicio = Exercise();
+            ejercicio.category = intent.extras?.getInt("categoriaID")
+            ejercicio.description = intent.extras?.getString("Descripcion")
+            ejercicio.id = intent.extras?.getInt("exerciseId")
+            ejercicio.muscles = musculos
+            ejercicio.name = intent.extras?.getString("NombreEjercicio")
+            ejercicio.uuid = intent.extras?.getString("exerciseUUID");
+
             val message = if (isChecked) "Switch1:ON" else "Switch1:OFF"
             Log.d("PRUEBA",message);
 
             if(isChecked){
                 scope.launch {
+                    ejercicio.favorito = true;
                     RepositorioMain.guardarFavorito(this@DescripcionEjercicio , ejercicio)
                     withContext(Dispatchers.Main){
                         Log.d("prueba","Se guardo el ejercicio Fav")
+                        Toast.makeText(this@DescripcionEjercicio,"Ejercicio Agregado a Favoritos", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -83,7 +98,8 @@ class DescripcionEjercicio : AppCompatActivity() {
                 scope.launch {
                     RepositorioMain.eliminarFavorito(this@DescripcionEjercicio, ejercicio)
                     withContext(Dispatchers.Main){
-                        Log.d("prueba","Se guardo el ejercicio Fav")
+                        Log.d("prueba","Se Elimino el ejercicio Fav")
+                        Toast.makeText(this@DescripcionEjercicio,"Ejercicio Eliminado de Favoritos", Toast.LENGTH_SHORT).show()
                     }
                     ejercicio.favorito = false;
                 }

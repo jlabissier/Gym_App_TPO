@@ -59,6 +59,10 @@ class Listado : AppCompatActivity() {
             intent.putExtra("NombreMusculo", muscle.name)
             intent.putExtra("Descripcion", exercise.description)
             intent.putExtra("ImagenId",muscle.id)
+            intent.putExtra("categoriaID",exercise.category)
+            intent.putExtra("exerciseId",exercise.id)
+            intent.putExtra("exerciseUUID",exercise.uuid)
+            intent.putExtra("favorito",exercise.favorito)
             startActivity(intent)
         }
 

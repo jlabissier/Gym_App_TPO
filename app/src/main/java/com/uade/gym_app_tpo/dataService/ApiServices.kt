@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.uade.gym_app_tpo.objetos.Category
 import com.uade.gym_app_tpo.objetos.Exercise
 import com.uade.gym_app_tpo.objetos.Muscle
@@ -140,7 +139,5 @@ class ApiServices {
 
 
     }
-
-
 
 }
