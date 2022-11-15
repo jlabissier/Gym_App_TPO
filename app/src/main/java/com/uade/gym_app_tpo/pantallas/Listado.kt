@@ -95,8 +95,13 @@ class Listado : AppCompatActivity() {
                 musculos = RepositorioMain.fetchMusculos(this@Listado)!!
 
                 withContext(Dispatchers.Main){
-                    adapter.update(ejercicios,categorias,musculos)
-                    textCargando.visibility = View.INVISIBLE
+                    if(ejercicios.size > 0){
+                        adapter.update(ejercicios,categorias,musculos)
+                        textCargando.visibility = View.INVISIBLE
+                    }else{
+                        textCargando.text = "No Tiene Ejercicios guardados en favoritos \n Agregue algunos y vuelva a revisarlos"
+                    }
+
                 }
             }
         }

@@ -30,7 +30,7 @@ class RepositorioMain {
         }
 
         suspend fun fetchEjerciciosFavoritos(context: Context): ArrayList<Exercise>? {
-            return ApiServices.fetchEjerciciosFavoritos(context)?.let { verificarEjercicios(it) }
+            return ApiServices.fetchEjerciciosFavoritos(context)
         }
 
         fun verificarEjercicios(ejercicios : ArrayList<Exercise>): ArrayList<Exercise> {
