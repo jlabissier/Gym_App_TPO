@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pantallas.Listado"
-    android:background="@drawable/fondo_login">
+    android:background="@drawable/fondo_login"
+    tools:context=".pantallas.Listado">
 
     <TextView
         android:id="@+id/Titulo"
@@ -15,8 +15,8 @@
         android:layout_marginTop="15dp"
         android:autoText="false"
         android:text="CACHO"
-        android:textColor="@color/white"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,19 +28,18 @@
         android:layout_height="wrap_content"
         android:text="Cargando datos...."
         android:textAlignment="center"
+        android:textColor="@color/purple_500"
         android:textSize="100px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/purple_500"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="110dp"
         android:layout_marginBottom="90dp"
         app:layout_constraintBottom_toTopOf="@id/BtnHome"
         app:layout_constraintTop_toBottomOf="@+id/Titulo">
@@ -69,4 +68,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/inputFiltro"
+        android:layout_width="365dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:background="#B3826B00"
+        android:hint="Buscar"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Titulo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

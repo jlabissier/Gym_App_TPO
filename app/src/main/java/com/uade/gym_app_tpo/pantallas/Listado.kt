@@ -5,12 +5,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.uade.gym_app_tpo.R
 import com.uade.gym_app_tpo.dataService.RepositorioMain
 import com.uade.gym_app_tpo.objetos.Category
@@ -113,6 +117,40 @@ class Listado : AppCompatActivity() {
             }
         }
 
+        var searchInput = findViewById<TextInputEditText>(R.id.inputFiltro)
+        // filtro
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(search: CharSequence?, start: Int, before: Int, count: Int) {
+                // hago una consulta a la API con lo que se busca -> Trae mas cantidad de recetas
+                val ejercicios = buscarEjerciciosPorNombre(ejercicios,search);
+
+                updateRecipesQuery(ejercicios)
+            }
+
+            private fun buscarEjerciciosPorNombre( ejercicios: ArrayList<Exercise>, search: CharSequence?): ArrayList<Exercise> {
+                val ejerciciosEncontrados = ArrayList<Exercise>();
+                for (ejercicio in ejercicios) {
+                    if  (ejercicio.name?.uppercase()?.contains(search.toString().uppercase()) == true) {
+                        ejerciciosEncontrados.add(ejercicio)
+                    }
+                }
+                return ejerciciosEncontrados
+            }
+
+            private fun updateRecipesQuery(ejercicios: ArrayList<Exercise>) {
+                scope.launch {
+                    withContext(Dispatchers.Main) {
+                        adapter.update(ejercicios,categorias,musculos)
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
 
 
 
