@@ -4,14 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo_login"
     tools:context=".pantallas.DescripcionEjercicio">
 
     <TextView
         android:id="@+id/tvNombre"
         android:layout_width="150dp"
         android:layout_height="89dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="24dp"
+        android:background="#B3826B00"
         android:text="Nombre"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.908"
@@ -25,10 +29,13 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="60dp"
+        android:background="#B3826B00"
         android:text="musculo"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintHorizontal_bias="0.294"
         app:layout_constraintStart_toEndOf="@+id/ivMusculo"
         app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
 
@@ -36,19 +43,21 @@
         android:id="@+id/tvDescrip"
         android:layout_width="369dp"
         android:layout_height="376dp"
+        android:background="#B3826B00"
         android:text="Descripcion"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.926" />
+        app:layout_constraintVertical_bias="0.659" />
 
     <ImageView
         android:id="@+id/ivMusculo"
-        android:layout_width="192dp"
-        android:layout_height="188dp"
+        android:layout_width="201dp"
+        android:layout_height="210dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
@@ -58,13 +67,28 @@
 
     <Switch
         android:id="@+id/favDescrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="fav"
+        android:layout_width="101dp"
+        android:layout_height="40dp"
+        android:background="#B3826B00"
+        android:padding="10px"
+        android:text="Fav"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="0.931" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="148dp"
+        android:text="Volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/favDescrip"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescrip"
+        app:layout_constraintVertical_bias="0.478" />
 </androidx.constraintlayout.widget.ConstraintLayout>

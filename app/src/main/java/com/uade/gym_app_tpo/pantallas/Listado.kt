@@ -30,6 +30,7 @@ class Listado : AppCompatActivity() {
     private var ejercicios = ArrayList<Exercise>()
     private var musculos = ArrayList<Muscle>()
     private var categorias = ArrayList<Category>()
+    private lateinit var titulo : String
 
 
 
@@ -38,6 +39,7 @@ class Listado : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listado_ejercicios)
+        supportActionBar?.hide()
 
         val btnHome = findViewById<Button>(R.id.BtnHome)
         btnHome.setOnClickListener {
@@ -52,9 +54,9 @@ class Listado : AppCompatActivity() {
         rvEjercios.adapter = adapter
 
 
-
         adapter.onItemClick = { exercise: Exercise, muscle: Muscle ->
             val intent = Intent(this, DescripcionEjercicio::class.java)
+            intent.putExtra("Titulo",titulo)
             intent.putExtra("NombreEjercicio", exercise.name)
             intent.putExtra("NombreMusculo", muscle.name)
             intent.putExtra("Descripcion", exercise.description)
@@ -64,6 +66,7 @@ class Listado : AppCompatActivity() {
             intent.putExtra("exerciseUUID",exercise.uuid)
             intent.putExtra("favorito",exercise.favorito)
             startActivity(intent)
+            finish()
         }
 
     }
@@ -71,7 +74,7 @@ class Listado : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val titulo = intent.extras?.getString("Titulo")
+        titulo = intent.extras?.getString("Titulo").toString()
         val TituloText = findViewById<TextView>(R.id.Titulo)
         TituloText.text = titulo;
         val textCargando = findViewById<TextView>(R.id.tv_cargando)

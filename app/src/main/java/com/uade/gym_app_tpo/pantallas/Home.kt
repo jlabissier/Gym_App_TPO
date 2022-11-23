@@ -32,6 +32,7 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         val btnEjercicios = findViewById<Button>(R.id.BtnEjercicios)
         btnEjercicios.setOnClickListener{

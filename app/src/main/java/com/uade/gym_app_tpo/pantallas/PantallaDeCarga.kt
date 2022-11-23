@@ -19,7 +19,7 @@ class PantallaDeCarga : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_de_carga)
-
+        supportActionBar?.hide()
         //fireBaseAuth = FirebaseAuth.getInstance()
 
         //checkUser()

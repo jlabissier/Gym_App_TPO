@@ -1,12 +1,10 @@
 package com.uade.gym_app_tpo.pantallas
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.uade.gym_app_tpo.R
 import com.uade.gym_app_tpo.dataService.RepositorioMain
@@ -18,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
 class DescripcionEjercicio : AppCompatActivity() {
     private val coroutineContext: CoroutineContext = newSingleThreadContext("Descripcion")
     private val scope = CoroutineScope(coroutineContext)
-
+    private lateinit var titulo : String
 
     val urlsImagenes = arrayListOf("",
         "https://firebasestorage.googleapis.com/v0/b/gym-app-tpo.appspot.com/o/id1_bicep.png?alt=media&token=00f08977-f649-43ca-8332-350f2eb714f6",
@@ -40,6 +38,7 @@ class DescripcionEjercicio : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_descripcion_ejercicio)
+        supportActionBar?.hide()
     }
 
 
@@ -50,6 +49,7 @@ class DescripcionEjercicio : AppCompatActivity() {
         var descrip = findViewById<TextView>(R.id.tvDescrip)
         var imgMusculo  = findViewById<ImageView>(R.id.ivMusculo)
 
+        titulo = intent.extras?.getString("Titulo").toString()
         nombre.text = intent.extras?.getString("NombreEjercicio")
         musculo.text = intent.extras?.getString("NombreMusculo")
         descrip.text = limpiarDescripcion( intent.extras?.getString("Descripcion")!! )
@@ -106,6 +106,11 @@ class DescripcionEjercicio : AppCompatActivity() {
             }
         }
 
+        val btnVolver = findViewById<Button>(R.id.btnVolver)
+        btnVolver.setOnClickListener{
+            VolverAlListado()
+        }
+
     }
 
 
@@ -123,4 +128,12 @@ class DescripcionEjercicio : AppCompatActivity() {
         }
         return result
     }
+
+    fun VolverAlListado(){
+        var intent = Intent(this, Listado::class.java)
+        intent.putExtra("Titulo",titulo)
+        startActivity(intent)
+        finish()
+    }
+
 }
