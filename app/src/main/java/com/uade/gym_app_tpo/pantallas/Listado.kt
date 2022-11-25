@@ -125,17 +125,23 @@ class Listado : AppCompatActivity() {
 
             override fun onTextChanged(search: CharSequence?, start: Int, before: Int, count: Int) {
                 // hago una consulta a la API con lo que se busca -> Trae mas cantidad de recetas
-                val ejercicios = buscarEjerciciosPorNombre(ejercicios,search);
+                val ejercicios = buscarEjerciciosPorNombre(ejercicios,categorias,search);
 
                 updateRecipesQuery(ejercicios)
             }
 
-            private fun buscarEjerciciosPorNombre( ejercicios: ArrayList<Exercise>, search: CharSequence?): ArrayList<Exercise> {
+            private fun buscarEjerciciosPorNombre( ejercicios: ArrayList<Exercise>,categorias: ArrayList<Category>, search: CharSequence?): ArrayList<Exercise> {
                 val ejerciciosEncontrados = ArrayList<Exercise>();
                 for (ejercicio in ejercicios) {
-                    if  (ejercicio.name?.uppercase()?.contains(search.toString().uppercase()) == true) {
-                        ejerciciosEncontrados.add(ejercicio)
+                    for(cat in categorias){
+                        if(cat.id == ejercicio.category){
+                            if  (cat.name?.uppercase()?.contains(search.toString().uppercase()) == true) {
+                                ejerciciosEncontrados.add(ejercicio)
+                            }
+                        }
                     }
+
+
                 }
                 return ejerciciosEncontrados
             }

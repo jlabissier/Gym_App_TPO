@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".pantallas.Home"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>
